@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procrastinghost</title>
+
+  <!-- Fonts: Griffy for the spooky title, Atkinson for normal text, Special Elite for timers -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Griffy&family=Atkinson+Hyperlegible:wght@400;700&family=Special+Elite&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- All the ghosts get added inside this div by script.js -->
+  <div id="ghost-layer" aria-hidden="true"></div>
+
+  <main class="container">
+    <header>
+      <h1>Procrastin<span>ghost</span></h1>
+      <p class="tagline">
+        A to-do list that refuses to be ignored. Every task you put off dies and comes back as a ghost.
+        The longer you wait, the bigger and more passive-aggressive it gets.
+        The only way to get rid of it is to actually do the thing.
+      </p>
+    </header>
+
+    <div class="stats">
+      <span>Ghosts haunting you: <b id="ghost-count">0</b></span>
+      <span>Exorcised: <b id="exorcised-count">0</b></span>
+      <span>Excuses absorbed: <b id="excuse-count">0</b></span>
+    </div>
+
+    <form class="add-task-form" id="add-task-form">
+      <input id="task-input" aria-label="Task" placeholder="Something you will definitely do later..." maxlength="80" required autocomplete="off">
+      <select id="haunt-time-select" aria-label="Haunts in">
+        <option value="30">Haunts in 30 sec (demo)</option>
+        <option value="300">Haunts in 5 min</option>
+        <option value="3600" selected>Haunts in 1 hour</option>
+        <option value="86400">Haunts in 1 day</option>
+      </select>
+      <button class="btn-primary" type="submit">Add task</button>
+    </form>
+
+    <h2>Still alive <small>tasks not yet haunting you</small></h2>
+    <ul id="alive-list"></ul>
+
+    <h2>Haunted <small>click a ghost or a row</small></h2>
+    <ul id="haunted-list"></ul>
+
+    <h2>Graveyard <small>at peace</small></h2>
+    <ul id="graveyard-list" class="graveyard"></ul>
+
+    <div class="footer">
+      <span>Rows marked <span class="example-tag">example</span> are sample tasks.</span>
+      <button class="btn-outline" id="clear-examples-btn" type="button">Clear examples</button>
+    </div>
+  </main>
+
+  <!-- Popup that shows when you click on a ghost -->
+  <div class="ghost-popup" id="ghost-popup" hidden role="dialog" aria-labelledby="popup-task-name">
+    <div class="popup-inner">
+      <div class="popup-level" id="popup-level"></div>
+      <h3 id="popup-task-name"></h3>
+      <p class="popup-message" id="popup-message"></p>
+      <div class="popup-buttons">
+        <button class="btn-primary" id="done-btn" type="button">I did it. Exorcise.</button>
+        <button class="btn-outline" id="excuse-btn" type="button">Make an excuse</button>
+        <button class="btn-outline" id="snooze-btn" type="button">Snooze</button>
+        <button class="btn-outline" id="close-btn" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

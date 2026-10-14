@@ -1,0 +1,422 @@
+/* ===========================
+   Procrastinghost - styles
+   =========================== */
+
+/* Color palette + fonts */
+:root {
+  --bg-dark: #1b1626;
+  --card-bg: #261f35;
+  --border-color: #31284a;
+  --text-main: #efe6d8;
+  --text-muted: #a99fb8;
+  --orange: #ff8a3d;
+  --ghost-white: #c9f5e6;
+  --red: #ff5470;
+  --green: #7fe0a8;
+
+  --font-title: "Griffy", Georgia, cursive;
+  --font-body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font-mono: "Special Elite", "Courier New", monospace;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  /* the moon in the top right corner */
+  background-image: radial-gradient(circle at 85% 6%,
+    rgba(239, 230, 216, 0.16) 0 46px,
+    rgba(239, 230, 216, 0.05) 47px 120px,
+    transparent 121px);
+}
+
+/* when any ghost reaches level 4 the whole page flashes a bit */
+body.poltergeist-mode {
+  animation: red-tint 3s ease-in-out infinite;
+}
+
+@keyframes red-tint {
+  50% { background-color: #24152a; }
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 16px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Header ---------- */
+header h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 9vw, 4.2rem);
+  line-height: 1;
+  margin: 0;
+  color: var(--orange);
+}
+
+header h1 span {
+  color: var(--ghost-white);
+}
+
+.tagline {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  max-width: 58ch;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 24px 0 28px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.stats b {
+  color: var(--text-main);
+  font-weight: 400;
+}
+
+/* ---------- Add task form ---------- */
+.add-task-form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  background: var(--card-bg);
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+}
+
+.add-task-form input,
+.add-task-form select {
+  font: inherit;
+  color: var(--text-main);
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-width: 0;
+}
+
+/* stack the form on phones */
+@media (max-width: 540px) {
+  .add-task-form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .add-task-form input {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- Buttons ---------- */
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background: var(--orange);
+  color: #2a1406;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover {
+  border-color: var(--text-muted);
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* ---------- Task lists ---------- */
+h2 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin: 36px 0 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+h2 small {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border-left: 4px solid var(--green);
+}
+
+/* haunted rows use the ghost's level color (set from JS) */
+.task-row.haunted {
+  border-left-color: var(--level-color);
+}
+
+.task-row .task-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.task-row .timer {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.task-row .level-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--level-color);
+  color: var(--bg-dark);
+  white-space: nowrap;
+}
+
+.task-row button {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.example-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  border: 1px dashed var(--text-muted);
+  border-radius: 6px;
+  padding: 0 5px;
+  margin-left: 6px;
+}
+
+.empty-message {
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 8px 2px;
+}
+
+.graveyard li {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 2px 0;
+}
+
+.graveyard li:not(.empty-message)::before {
+  content: "RIP  ";
+  color: var(--green);
+}
+
+.footer {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- Ghosts ---------- */
+#ghost-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none; /* so you can still click the page behind */
+  z-index: 5;
+  overflow: hidden;
+}
+
+.ghost {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: auto;
+  cursor: pointer;
+  filter: drop-shadow(0 0 14px var(--glow-color));
+  transition: width 0.6s, height 0.6s;
+}
+
+.ghost svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  animation: float-up-down 2.4s ease-in-out infinite;
+}
+
+/* level 4 ghosts bob faster and shake */
+.ghost.level-4 svg {
+  animation: float-up-down 0.9s ease-in-out infinite, shake 0.2s steps(2) infinite;
+}
+
+@keyframes float-up-down {
+  50% { transform: translateY(-8%); }
+}
+
+@keyframes shake {
+  50% { translate: 2px -1px; }
+}
+
+.speech-bubble {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+  width: max-content;
+  max-width: 220px;
+  background: var(--text-main);
+  color: var(--bg-dark);
+  font-size: 0.82rem;
+  line-height: 1.3;
+  padding: 8px 10px;
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.speech-bubble.visible {
+  opacity: 1;
+}
+
+.ghost.level-4 .speech-bubble {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  background: var(--red);
+  color: #fff;
+}
+
+.ghost.disappearing {
+  transition: transform 0.5s, opacity 0.5s;
+  opacity: 0;
+}
+
+.sparkle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ghost-white);
+  pointer-events: none;
+}
+
+/* ---------- Popup + toast ---------- */
+.ghost-popup {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background: var(--card-bg);
+  border-top: 2px solid var(--orange);
+  border-radius: 18px 18px 0 0;
+  padding: 20px 16px;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.popup-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  gap: 10px;
+}
+
+.popup-level {
+  font-family: var(--font-mono);
+  color: var(--orange);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ghost-popup h3 {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 1.6rem;
+  overflow-wrap: anywhere;
+}
+
+.popup-message {
+  margin: 0;
+  color: var(--text-muted);
+  min-height: 1.5em;
+}
+
+.popup-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: var(--green);
+  color: #11261a;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  max-width: calc(100% - 32px);
+  text-align: center;
+}
+
+/* turn off the animations for people who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .ghost svg,
+  .ghost.level-4 svg,
+  body.poltergeist-mode {
+    animation: none;
+  }
+}
